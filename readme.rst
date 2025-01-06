@@ -22,7 +22,7 @@ If you would like a working example you can visit the
 
 
 .. image:: grand_rapids.jpg
-  :width: 600
+  :width: 810
   :alt: Chart example
 
 Grand Rapids Michigan US data from 1963-2024  
