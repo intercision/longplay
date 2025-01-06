@@ -8,7 +8,7 @@ Load in data from  `Metrostat <https://dev.meteostat.net/bulk>`_
 Updates
 #########
 
-**1/6/2025** - First alpha version, fixed a degree symbol bug
+**1/6/2025** - First alpha version, fixed a degree symbol bug.
 
 ################
 How to Use
