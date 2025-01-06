@@ -1,0 +1,53 @@
+
+
+<html>
+<head>
+
+<style type="text/css">
+
+.year-label {
+  fill: white;
+  opacity: .7;
+  pointer-events: none;
+}
+
+.month-label {
+	  pointer-events: none;
+	
+}
+
+#other_file {
+  display: none;
+  
+}
+
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+   
+   <select name= "which" id="which">
+     <option value="tmax">High Temperature</option>
+	 <option value="tmin">Low Temperature</option>
+	 <option value="tavg">Average Temperature</option>
+	 <option value="tvar">Temperature Variability</option>
+	 <option value="prcp">Precipitation</option>
+	 <option value="snow">Snow</option>
+	 <option value="tsun">Sunshine</option>
+   </select>
+   
+	<input type="file" id="fileInput" accept=".csv">
+
+	 <script src="concentric_circles_day_csv.js"></script>
+
+
+
+<button onClick="window.location.href=window.location.href" id="other_file">Load In Another File</button>
+
+	
+</body>
+</html>
