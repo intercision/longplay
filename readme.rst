@@ -19,6 +19,14 @@ Simply run the index file and load in a CSV file of `Metrostat weather data <htt
 If you would like a working example you can visit the 
 `website <https://longplay.brokenpen.net/>`_
 
+
+
+.. image:: grand_rapids.jpg
+  :width: 600
+  :alt: Chart example
+
+Grand Rapids Michigan US data from 1963-2024  
+  
 ###############
 Other Notes
 ###############
