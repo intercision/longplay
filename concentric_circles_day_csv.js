@@ -137,17 +137,160 @@ const svg = d3.select("body")
 const years = [...new Set(data.map(d => d.year))];
 const numYears = years.length;
 
+
+
 /*
-// Color scale for temperature
+which_scale = document.getElementById("which_scale").value;
+
+console.log(which_scale);
+
+if (which_scale == 'generated'){
+	
+// Color scale for temperature based on data itself
 const colorScale = d3.scaleSequential()
     .domain([d3.min(data, d => d.temp), d3.max(data, d => d.temp)])
     .interpolator(d3.interpolateRdBu);
+
+}
+else if (which_scale == 'normal'){
+	
+	// must convert F to C from old script
+const colorScale = d3.scaleLinear()
+    .domain([-17.8, -12.2, -6.7, -1.1, 4.4, 10.0, 15.6, 21.1, 26.7, 32.2, 37.8, 43.3])
+    .range([
+        '#555555',
+        '#000000',
+        '#000088',
+        '#0000ff',
+        '#0088ff',
+        '#00ddff',
+        '#00aa00',
+        '#88ff00',
+        '#ffff00',
+        '#ff8800',
+        '#ff0000',
+        '#ff6666'
+    ]);
+	
+	
+}
 */
 
+
+// Create a function to generate the color scale
+function generate_tooltip(which_attribute, d) {
+	
+	  
+	 
+	 // which_attribute = document.getElementById("which").value;
+     
+			if (which_attribute == 'prcp'){
+				 tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Precipitation: ${d[which_attribute].toFixed(1)} mm` + ' or ' + (d[which_attribute] / 25.4).toFixed(1) + ' inches';
+			}
+			else if (which_attribute == 'snow'){
+				
+				 inches = (d[which_attribute] / 25.4).toFixed(1);
+				 feet = Math.floor(inches / 12);
+				 remainingInches = (inches % 12).toFixed(1);;
+				
+				 if (inches > 12){
+					 inches_say = feet + ' feet ' + remainingInches
+				 }
+				 else {
+					inches_say = inches;
+				 }
+				 
+				
+				 tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Snow Depth: ${d[which_attribute].toFixed(1)} mm`
+				 + ' or ' + inches_say + ' inches';
+			}
+			else if (which_attribute == 'pres'){
+				tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Barometric Pressure: ${d[which_attribute].toFixed(1)} millibars or  ` + (d[which_attribute] * 0.02953).toFixed(2) + ' inches';
+				
+			}
+			
+			else {
+			
+          tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Temperature: ${d[which_attribute].toFixed(1)} &deg;C,  ${convertToF(d[which_attribute]).toFixed(1)} &deg;F`;
+		  
+			}
+	
+	return tooltip_html;
+	
+}
+
+
+
+// Create a function to generate the color scale
+function createColorScale(scaleType, data) {
+	
+	
+	which_attribute = document.getElementById("which").value;
+    // Define the scales as constants
+    const TEMPERATURE_COLORS = {
+        normal: {
+            domain: [-17.8, -12.2, -6.7, -1.1, 4.4, 10.0, 15.6, 21.1, 26.7, 32.2, 37.8, 43.3],
+            range: [
+                '#555555', '#000000', '#000088', '#0000ff', '#0088ff', 
+                '#00ddff', '#00aa00', '#88ff00', '#ffff00', '#ff8800', 
+                '#ff0000', '#ff6666'
+            ]
+        }
+    };
+
+
+    if (scaleType == 'generated'){
+		
+		return d3.scaleSequential()
+    .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
+    .interpolator(d3.interpolateHslLong("purple", "orange"));
+	
+	
+	
+	}
+	else {
+		
+		 return d3.scaleLinear()
+            .domain(TEMPERATURE_COLORS.normal.domain)
+            .range(TEMPERATURE_COLORS.normal.range)
+			.interpolate(d3.interpolateRgb.gamma(2.2));
+			
+			
+	}
+	
+	/*
+	
+    // Return the appropriate scale based on type
+    return scaleType === 'generated'
+        ? d3.scaleSequential()
+            .domain(d3.extent(data, d => d.temp))
+            .interpolator(d3.interpolateRdBu)
+        : d3.scaleLinear()
+            .domain(TEMPERATURE_COLORS.normal.domain)
+            .range(TEMPERATURE_COLORS.normal.range);
+			
+			*/
+}
+
+
+var whichScale = d3.select('#which_scale').property('value');
+
+var colorScale = createColorScale(whichScale, data);
+
+
+/*
+// Color scale for temperature based on data itself
 const colorScale = d3.scaleSequential()
     .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
     .interpolator(d3.interpolateHslLong("purple", "orange"));
-
+*/
+	
+	
+/*
+const colorScale = d3.scaleSequential()
+    .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
+    .interpolator(d3.interpolateHslLong("purple", "orange"));
+*/
 
 
 function day_of_year(year,month,day){
@@ -197,6 +340,8 @@ svg.selectAll("path")
             .duration(200)
             .style("opacity", .9);
             
+			
+			/*
 			if (which_attribute == 'snow' || which_attribute == 'prcp'){
 				 tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Precipitation: ${d[which_attribute].toFixed(1)} ° mm`;
 			}
@@ -205,8 +350,13 @@ svg.selectAll("path")
           tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Temperature: ${d[which_attribute].toFixed(1)} &deg;C,  ${convertToF(d[which_attribute]).toFixed(1)} &deg;F`;
 		  
 			}
+			*/
 			
-        tooltip.html(tooltip_html)
+			// tooltip_html = generate_tooltip(which_attribute,data);
+			
+			
+			
+        tooltip.html(generate_tooltip(which_attribute,d))
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 28) + "px");
 			
@@ -258,12 +408,21 @@ svg.selectAll(".month-label")
     .text(d => d);
 
 // Add a legend
-const legendWidth = 200;
+const legendWidth = 400;
 const legendHeight = 20;
 
+/*
 const legendScale = d3.scaleSequential()
     .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
     .interpolator(d3.interpolateHslLong("purple", "orange"));
+*/
+
+ whichScale = document.getElementById("which_scale").value;
+
+ var legendScale = createColorScale(whichScale, data);
+
+
+
 
 const legendAxis = d3.axisBottom(d3.scaleLinear()
     .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
@@ -317,11 +476,21 @@ legend.append("g")
         // d.t_using = d[selectedGroup];
     });
 
+/*
     // Update color scale with new domain
     colorScale.domain([
         d3.min(data, d => d[selectedGroup]),
         d3.max(data, d => d[selectedGroup])
     ]);
+*/
+
+     whichScale = document.getElementById("which_scale").value;
+
+     colorScale = createColorScale(whichScale, data);
+
+     legendScale = createColorScale(whichScale, data);
+	 
+	 
 
     // Update the paths with new colors
     svg.selectAll("path")
@@ -330,6 +499,8 @@ legend.append("g")
         .duration(1000)
         .style("fill", d => colorScale(d[selectedGroup]));
 
+
+/*
     // Update the legend
     const legendScale = d3.scaleSequential()
         .domain([
@@ -337,6 +508,8 @@ legend.append("g")
             d3.max(data, d => d[selectedGroup])
         ])
         .interpolator(d3.interpolateHslLong("purple", "orange"));
+*/
+
 
     const legendAxis = d3.axisBottom(d3.scaleLinear()
         .domain([
@@ -372,6 +545,10 @@ legend.append("g")
     svg.selectAll("path")
         .on("mouseover", function(event, d) {
 			
+			tooltip_html = generate_tooltip(which_attribute,d);
+			
+			
+			/*
 			 which_attribute = document.getElementById("which").value;
      
 			if (which_attribute == 'snow' || which_attribute == 'prcp'){
@@ -383,6 +560,7 @@ legend.append("g")
 		  
 			}
 			
+			*/
 			
 			
             d3.select(this)
@@ -413,6 +591,17 @@ legend.append("g")
         // run the updateChart function with this selected option
         update(selectedOption)
     })
+
+
+
+// which scale
+    d3.select("#which_scale").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption  = document.getElementById("which").value;
+        // run the updateChart function with this selected option
+        update(selectedOption)
+    })
+
 
 
 
