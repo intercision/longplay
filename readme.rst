@@ -9,6 +9,7 @@ Updates
 #########
 
 **1/10/2025** - Added scales and more data types
+
 **1/6/2025** - First alpha version, fixed a degree symbol bug.
 
 ################
