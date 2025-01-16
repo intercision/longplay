@@ -1,7 +1,7 @@
 // Set up dimensions
-const width = 800;
-const height = 850;
-const margin = 50;
+const width = 900;
+const height = 950;
+const margin = 55;
 const innerRadius = 100;
 const outerRadius = Math.min(width, height) / 2 - margin;
 
@@ -401,8 +401,8 @@ svg.selectAll(".month-label")
     .enter()
     .append("text")
     .attr("class", "month-label")
-    .attr("x", (d, i) => (outerRadius + 20) * Math.sin(i * 2 * Math.PI / 12 + offsetAngle))
-    .attr("y", (d, i) => -(outerRadius + 20) * Math.cos(i * 2  * Math.PI / 12 + offsetAngle))
+    .attr("x", (d, i) => (outerRadius + 30) * Math.sin(i * 2 * Math.PI / 12 + offsetAngle))
+    .attr("y", (d, i) => -(outerRadius + 30) * Math.cos(i * 2  * Math.PI / 12 + offsetAngle))
     .attr("dy", "0.35em")
     .attr("text-anchor", "middle")
     .text(d => d);
