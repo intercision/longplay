@@ -423,11 +423,28 @@ const legendScale = d3.scaleSequential()
 
 
 
+ function toFMaybe(temperature){
+	 
+	 temp_unit_type = document.getElementById("temp_unit_type").value;
+	 
+	 if (temp_unit_type == 'c'){
+		 return temperature;
+	 }
+	 else {
+	     return (Math.round(temperature * (9 / 5)) + 32);
+	 }
+	 
+	 
+	 
+ }
+ 
 
 const legendAxis = d3.axisBottom(d3.scaleLinear()
     .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
-    .range([0, legendWidth]));
+    .range([0, legendWidth]))
+    .tickFormat(d => toFMaybe(d));
 
+	
 const legend = svg.append("g")
     .attr("transform", `translate(${-legendWidth/2},${height/2 - margin + 12})`);
 
@@ -516,7 +533,9 @@ legend.append("g")
             d3.min(data, d => d[selectedGroup]),
             d3.max(data, d => d[selectedGroup])
         ])
-        .range([0, legendWidth]));
+        .range([0, legendWidth]))
+		.tickFormat(d => toFMaybe(d));
+
 
     // Update legend gradient
     legendGradient.selectAll("stop")
@@ -602,6 +621,14 @@ legend.append("g")
         update(selectedOption)
     })
 
+
+// which scale
+    d3.select("#temp_unit_type").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption  = document.getElementById("which").value;
+        // run the updateChart function with this selected option
+        update(selectedOption)
+    })
 
 
 
