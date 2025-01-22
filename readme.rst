@@ -2,7 +2,7 @@
 Long Play - Weather Data Radial Heat Map
 #########################################
 
-Load in data from  `Metrostat <https://dev.meteostat.net/bulk>`_
+Load in daily archival data from  `Metrostat <https://dev.meteostat.net/bulk>`_
 
 #########
 Updates
