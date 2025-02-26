@@ -8,6 +8,8 @@ Updates
 #########
 
 
+**2/26/2025** - Last few years, more scale work
+
 **1/15/2025** - Temperature scale
 
 **1/10/2025** - Added scales and more data types

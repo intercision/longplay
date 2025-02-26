@@ -62,8 +62,14 @@ csv_headers = 'date,  tavg, tmin,  tmax,  prcp,  snow,  wdir,  wspd,  wpgt,  pre
 // Get headers from first line
 const headers = csv_headers.split(',').map(header => header.trim());
 
+
+	
+   	year_back = d3.select('#year_back').property('value');
+	
+    
+	
 // Convert remaining lines into objects
-const data = lines.slice(1).map(line => {
+var data = lines.slice(1).map(line => {
     const values = line.split(',').map(value => value.trim());
     return headers.reduce((obj, header, index) => {
         // Convert string values to numbers where possible
@@ -78,9 +84,18 @@ const data = lines.slice(1).map(line => {
    
 
 
+
+
     // actually data is array of objects
 	
 	
+   	year_back = d3.select('#year_back').property('value');
+	
+	
+	 i_shift = 0;
+	 enter_loop_flag = false;
+	   
+	   
 	 for (let i = 0; i < data.length; i++)
 	 {
 	 //  console.log(data[i].year + " is " + data[i].temp + " degrees.");
@@ -89,9 +104,18 @@ const data = lines.slice(1).map(line => {
 	   
 	   
 	   
+	   if (date_parts[0] > year_back){
+	   
+	     if (enter_loop_flag == false ) {
+		   i_shift = i;
+		   enter_loop_flag = true;
+		 }
+		 
+		 
+	   
 	   d365 = day_of_year(date_parts[0],date_parts[1],date_parts[2]);
 	   
-      // console.log(d365);	   
+       // console.log(d365);	   
 		   
 	   data[i].day_365 = d365;
 		
@@ -100,29 +124,48 @@ const data = lines.slice(1).map(line => {
 	    data[i].day = date_parts[2];  // day add kludge
 	  
 	 // data[i].t_using = data[i].tmax; // kludge to get var we want
-	  
-	 which_attribute = document.getElementById("which").value;
+	 // which_attribute = document.getElementById("which").value;
      
 	 data[i].tvar = data[i].tmax - data[i].tmin;
 	 
-	 /*
-	 if (which_attribute == 'tmax'){ 
-	    data[i].t_using = data[i].tmax;
-	 }
-	 else if  (which_attribute == 'tmin'){ 
-		data[i].t_using = data[i].tmin;
-	 }
-	 	 else if  (which_attribute == 'snow'){ 
-		data[i].t_using = data[i].snow;
-	 }
+	   }
 	 
-*/
+	 
+	 
+	 
+	 
+	 // for up to said year
+//	 if (data[i].year == year_back){
+//	   break;	 
+//	 }
+	 
+	
+	 
+	 
+	
+//	 if (which_attribute == 'tmax'){ 
+	//    data[i].t_using = data[i].tmax;
+	 //}
+//	 else if  (which_attribute == 'tmin'){ 
+//		data[i].t_using = data[i].tmin;
+	// }
+	 //	 else if  (which_attribute == 'snow'){ 
+//		data[i].t_using = data[i].snow;
+//	 }
+	 
+
+
+   
+   
 
      }
 	
 	
 	 
-  
+  // move incompletion
+ data = data.slice(i_shift);
+
+
 
 
 // Create SVG
@@ -237,6 +280,20 @@ function createColorScale(scaleType, data) {
             ]
         }
     };
+	
+	  // in mm   
+	  const SNOW_COLORS = {
+        normal: {
+            domain: [0, 25.4, 50.8, 101.6, 152.4, 228.16, 381, 533.40, 812.80, 1320.8, 1676.4, 2540],
+            range: [
+                '#000', '#555', '#777', '#999', '#aaa', 
+                '#ccc', '#ddd', '#fff', '#faa', '#f88', 
+                '#f44', '#f00'
+            ]
+        }
+    };
+	
+	
 
 
     if (scaleType == 'generated'){
@@ -244,9 +301,23 @@ function createColorScale(scaleType, data) {
 		return d3.scaleSequential()
     .domain([d3.min(data, d => d[which_attribute]), d3.max(data, d => d[which_attribute])])
     .interpolator(d3.interpolateHslLong("purple", "orange"));
+
 	
 	
-	
+	}
+	else if (scaleType == 'scale_snow')
+	 {
+		
+		
+		return d3.scaleLinear()
+            .domain(SNOW_COLORS.normal.domain)
+            .range(SNOW_COLORS.normal.range)
+			.interpolate(d3.interpolateRgb.gamma(2.2));
+			
+			
+			
+			
+			
 	}
 	else {
 		
