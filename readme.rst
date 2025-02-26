@@ -32,7 +32,9 @@ If you would like a working example you can visit the
   :alt: Chart example
 
 Grand Rapids Michigan US data from 1963-2025  
+
 Daily High Temperature (Fahrenheit) 
+
 Inner rings are older years  
   
 
