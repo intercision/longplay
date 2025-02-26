@@ -31,8 +31,9 @@ If you would like a working example you can visit the
   :width: 810
   :alt: Chart example
 
-Grand Rapids Michigan US data from 1963-2024  
-  
+Grand Rapids Michigan US data from 1963-2025  
+Daily High Temperature (Fahrenheit) 
+Inner rings are older years  
   
 
 ###############
