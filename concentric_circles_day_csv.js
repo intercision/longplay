@@ -479,7 +479,7 @@ svg.selectAll(".month-label")
     .text(d => d);
 
 // Add a legend
-const legendWidth = 400;
+const legendWidth = 600;
 const legendHeight = 20;
 
 /*
@@ -554,7 +554,10 @@ legend.append("rect")
 
 legend.append("g")
     .attr("transform", `translate(0,${legendHeight})`)
-    .call(legendAxis);
+    .call(legendAxis)
+	 .selectAll("text")  // Select all text elements in the axis
+    .style("font-size", "14px"); 
+	
 
 
   // ai generated
@@ -622,7 +625,9 @@ legend.append("g")
     legend.select("g")
         .transition()
         .duration(1000)
-        .call(legendAxis);
+        .call(legendAxis)
+		.selectAll("text")  // Select all text elements in the axis
+        .style("font-size", "14px");
 
 
 
