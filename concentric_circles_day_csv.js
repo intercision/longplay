@@ -251,7 +251,10 @@ function generate_tooltip(which_attribute, d) {
 				tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Barometric Pressure: ${d[which_attribute].toFixed(1)} millibars or  ` + (d[which_attribute] * 0.02953).toFixed(2) + ' inches';
 				
 			}
-			
+			else if (which_attribute == 'wspd'){
+				tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Wind Speed: ${d[which_attribute].toFixed(1)} km/hr or  ` + (d[which_attribute] / 1.609344).toFixed(2) + ' mi/hr';
+				
+			}
 			else {
 			
           tooltip_html = `Year: ${d.year}<br/>Day:${d.month}/${d.day} - ${d.day_365}<br/>Temperature: ${d[which_attribute].toFixed(1)} &deg;C,  ${convertToF(d[which_attribute]).toFixed(1)} &deg;F`;
