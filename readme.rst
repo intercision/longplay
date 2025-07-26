@@ -7,6 +7,12 @@ Long Play - Weather Data Radial Heat Map
 Updates
 #########
 
+**Note:** Metrostat is sunsetting the format of bulk data this chart relies on.
+I am working on a `new website <https://climateradial.com/>`_ to pull the data in 
+the new format but it's split into years so needs a database back end to do. The upshot
+of that is there are now ready-made cities for the chart so you can see it in action.
+
+
 
 **2/26/2025** - Last few years, more scale work
 
@@ -23,7 +29,7 @@ How to Use
 Simply run the index file and load in a CSV file of `Metrostat weather data <https://dev.meteostat.net/bulk>`_
 
 If you would like a working example you can visit the 
-`website <https://longplay.brokenpen.net/>`_
+`website <https://climateradial.com/>`_
 
 
 
